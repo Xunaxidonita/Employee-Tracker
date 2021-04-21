@@ -19,4 +19,13 @@ describe("mainMenu", () => {
 
     stdin.send("\u001b[B\n", "ascii");
   });
+
+  test("select third option", (done) => {
+    mainMenu().then((selected) => {
+      expect(selected).toEqual(OPTIONS[2]);
+      done();
+    });
+
+    stdin.send("\u001b[B\u001b[B\n", "ascii");
+  });
 });
