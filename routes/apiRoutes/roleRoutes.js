@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../../db/connection");
 
 // Get all roles
-router.get("/api/roles", (req, res) => {
+router.get("/roles", (req, res) => {
   const sql = `SELECT * FROM roles`;
   db.query(sql, (err, rows) => {
     if (err) {
@@ -18,7 +18,7 @@ router.get("/api/roles", (req, res) => {
 });
 
 //Get a single role
-router.get("/api/role/:id", (req, res) => {
+router.get("/role/:id", (req, res) => {
   const sql = `SELECT * FROM roles WHERE id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, row) => {
@@ -34,7 +34,7 @@ router.get("/api/role/:id", (req, res) => {
 });
 
 //Delete a role
-router.delete("/api/role/:id", (req, res) => {
+router.delete("/role/:id", (req, res) => {
   const sql = `DELETE FROM roles WHERE id = ?`;
   const params = [req.params.id];
   db.query(sql, params, (err, result) => {
@@ -56,7 +56,7 @@ router.delete("/api/role/:id", (req, res) => {
 });
 
 //Create a role
-router.post("/api/role", ({ body }, res) => {
+router.post("/role", ({ body }, res) => {
   const errors = inputCheck(body, "title", "salary", "department_id");
   if (errors) {
     const sql = `INSERT INTO roles (title, salary, department_id)
@@ -76,6 +76,21 @@ router.post("/api/role", ({ body }, res) => {
     res.status(400).json({ error: errors });
     return;
   }
+});
+
+//Get roles list
+router.get("/roles_list", (req, res) => {
+  const sql = `SELECT roles.title, roles.id FROM roles`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows,
+    });
+  });
 });
 
 module.exports = router;
