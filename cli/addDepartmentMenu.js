@@ -1,4 +1,14 @@
 const inquirer = require("inquirer");
+const fetch = require("node-fetch");
+
+const newDepartment = (department) =>
+  fetch("http://localhost:3001/api/department", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: department }),
+  });
 
 const deptMenu = () => {
   return inquirer
@@ -10,7 +20,9 @@ const deptMenu = () => {
       },
     ])
     .then((answers) => {
-      return answers.department;
+      debugger;
+      newDepartment(answers.department);
+      return "Department added";
     });
 };
 

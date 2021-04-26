@@ -1,8 +1,16 @@
 const inquirer = require("inquirer");
-const deptMenu = require("./addDepartmentMenu");
+const cTable = require("console.table");
+const newDeptMenu = require("./addDepartmentMenu");
 const byDeptMenu = require("./viewEmployeesByDept");
 const byRoleMenu = require("./viewEmployeesByRole");
 const byManagerMenu = require("./viewEmployeesByManager");
+const getWholeRoster = require("../utils/getWholeRoster");
+const newRoleMenu = require("./addRoleMenu");
+const newEmployeeMenu = require("./addEmployeeMenu");
+const delEmployeeMenu = require("./delEmployeeMenu");
+const updateEmployeeManager = require("./updateEmployeeManMenu");
+const updateEmployeeRole = require("./updateEmployeeRoleMenu");
+const viewSingleEmployeeMenu = require("./viewSingleEmployee");
 
 const OPTIONS = [
   "View all departments",
@@ -17,47 +25,51 @@ const OPTIONS = [
   "Remove employee",
   "Update an employee's manager",
   "Update an employee's role",
+  "View a single employee",
 ];
-
-const getWholeRoster = async (tableName) => {
-  let rawData = await fetch(`/api/${tableName}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  let toTable = await rawData.json();
-  return toTable.data;
-};
 
 const answerChecker = async function (answer) {
   let data;
   switch (answer) {
     case OPTIONS[0]:
       data = await getWholeRoster("departments");
+      break;
     case OPTIONS[1]:
       data = await getWholeRoster("roles");
+      break;
     case OPTIONS[2]:
       data = await getWholeRoster("employees");
+      break;
     case OPTIONS[3]:
       data = await byDeptMenu();
+      break;
     case OPTIONS[4]:
       data = await byRoleMenu();
+      break;
     case OPTIONS[5]:
       data = await byManagerMenu();
+      break;
     case OPTIONS[6]:
       data = await newDeptMenu();
+      break;
     case OPTIONS[7]:
       data = await newRoleMenu();
+      break;
     case OPTIONS[8]:
       data = await newEmployeeMenu();
+      break;
     case OPTIONS[9]:
       data = await delEmployeeMenu();
+      break;
     case OPTIONS[10]:
       data = await updateEmployeeManager();
-    case OPTIONS[9]:
+      break;
+    case OPTIONS[11]:
       data = await updateEmployeeRole();
-    case OPTIONS[10]:
+      break;
+    case OPTIONS[12]:
+      data = await viewSingleEmployeeMenu();
+      break;
   }
   return data;
 };
@@ -73,7 +85,10 @@ const mainMenu = () => {
       },
     ])
     .then((answers) => {
-      answerChecker(answers).then((data) => {});
+      answerChecker(answers.selected).then((data) => {
+        console.log(data);
+        mainMenu();
+      });
     });
 };
 

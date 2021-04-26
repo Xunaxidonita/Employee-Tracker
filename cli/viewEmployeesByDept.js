@@ -1,4 +1,5 @@
-const getWholeRoster = require ("../utils/getWholeRoster");
+const inquirer = require("inquirer");
+const getWholeRoster = require("../utils/getWholeRoster");
 
 const getDepartments = async () => {
   const departments = await getWholeRoster("departments");
@@ -6,26 +7,27 @@ const getDepartments = async () => {
 };
 
 const getId = function (department, array) {
-array.forEach(element => {
+  let myId;
+  array.forEach((element) => {
     if (element.name === department) {
-        return element.id;
+      myId = element.id;
     }
-})
+  });
+  return myId;
 };
 
 const genFullId = async (department, array) => {
-    const deptUrl = "employees/department/";
-    const id = await getId(department, array);
-    const fullUrl = deptUrl + id;
-    return fullUrl;
-}
+  const deptUrl = "employees/department/";
+  const id = getId(department, array);
+  const fullUrl = deptUrl + id;
+  return fullUrl;
+};
 
 const byDeptMenu = async () => {
   const departmentsTable = await getDepartments();
   const departmentList = departmentsTable.map((dept) => {
-    dept.name;
+    return dept.name;
   });
-
   return inquirer
     .prompt([
       {
@@ -35,8 +37,8 @@ const byDeptMenu = async () => {
         choices: departmentList,
       },
     ])
-    .then((answers) => {
-        const fullUrl = await genFullId(answers.department, departmentsTable);
+    .then(async (answers) => {
+      const fullUrl = await genFullId(answers.department, departmentsTable);
       const getEmployeesByTable = await getWholeRoster(fullUrl);
       return getEmployeesByTable;
     });

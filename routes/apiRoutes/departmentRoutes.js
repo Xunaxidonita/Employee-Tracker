@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../../db/connection");
+const inputCheck = require("../../utils/inputCheck");
 
 // Get all departments
 router.get("/departments", (req, res) => {
@@ -55,27 +56,28 @@ router.delete("/department/:id", (req, res) => {
   });
 });
 
-//Create a department
+//Create a new department
 router.post("/department", ({ body }, res) => {
   const errors = inputCheck(body, "name");
   if (errors) {
-    const sql = `INSERT INTO departments (name)
-    VALUES (?,?,?,?)`;
-    const params = [body.name];
-
-    db.query(sql, params, (err, result) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
-      res.json({
-        message: "success",
-        data: body,
-      });
-    });
     res.status(400).json({ error: errors });
     return;
   }
+
+  const sql = `INSERT INTO departments (name)
+  VALUES (?)`;
+  const params = [body.name];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: "success",
+      data: body,
+    });
+  });
 });
 //Get departments list
 router.get("/departments_list", (req, res) => {
