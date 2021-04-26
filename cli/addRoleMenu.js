@@ -8,7 +8,6 @@ const getDepartments = async () => {
 };
 
 const getId = function (department, array) {
-  debugger;
   let myId;
   array.forEach((element) => {
     if (element.name === department) {

@@ -72,7 +72,6 @@ const employeeMenu = async () => {
       },
     ])
     .then((answers) => {
-      debugger;
       const roleId = getId(answers.role, roleList, "title");
       const managerId = getId(answers.manager, managerList, "manager");
       newEmployee(answers.first_name, answers.last_name, roleId, managerId);

@@ -31,7 +31,6 @@ const updateRole = (id, role_id) =>
   });
 
 const modRoleEmployeeMenu = async () => {
-  debugger;
   const employeeList = await getEmployees();
   const OPTIONS = employeeList.map((employee) => {
     return employee.manager;
@@ -56,7 +55,6 @@ const modRoleEmployeeMenu = async () => {
       },
     ])
     .then(async (answers) => {
-      debugger;
       const employee = await getId(answers.employee, employeeList, "manager");
       const role = await getId(answers.role, roleList, "title");
       updateRole(employee, role);

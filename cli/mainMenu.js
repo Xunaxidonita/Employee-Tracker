@@ -86,7 +86,7 @@ const mainMenu = () => {
     ])
     .then((answers) => {
       answerChecker(answers.selected).then((data) => {
-        console.log(data);
+        console.table(data);
         mainMenu();
       });
     });

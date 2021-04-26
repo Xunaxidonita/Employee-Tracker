@@ -26,7 +26,6 @@ const getId = function (name, array) {
 };
 
 const delEmployeeMenu = async () => {
-  debugger;
   const employeeList = await getEmployees();
   const OPTIONS = employeeList.map((employee) => {
     return employee.manager;
@@ -43,7 +42,6 @@ const delEmployeeMenu = async () => {
     ])
     .then(async (answers) => {
       const employee = await getId(answers.selected, employeeList);
-      debugger;
       deleteEmployee(employee);
       return "Employee removed";
     });

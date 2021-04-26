@@ -20,7 +20,6 @@ const deptMenu = () => {
       },
     ])
     .then((answers) => {
-      debugger;
       newDepartment(answers.department);
       return "Department added";
     });

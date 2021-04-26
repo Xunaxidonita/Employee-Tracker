@@ -39,7 +39,6 @@ const byManagerMenu = async () => {
       },
     ])
     .then(async (answers) => {
-      debugger;
       const fullUrl = await genFullId(answers.manager, managersTable);
       const getEmployeesByTable = await getWholeRoster(fullUrl);
       return getEmployeesByTable;

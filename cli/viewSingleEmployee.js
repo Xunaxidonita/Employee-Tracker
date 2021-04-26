@@ -23,7 +23,6 @@ const getId = function (name, array) {
 };
 
 const viewSingleEmployeeMenu = async () => {
-  debugger;
   const employeeList = await getEmployees();
   const OPTIONS = employeeList.map((employee) => {
     return employee.manager;
@@ -38,7 +37,6 @@ const viewSingleEmployeeMenu = async () => {
       },
     ])
     .then(async (answers) => {
-      debugger;
       const employee = getId(answers.selected, employeeList);
       const myEmployee = await getSingleEmployee(employee);
       return myEmployee;

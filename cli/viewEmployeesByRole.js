@@ -38,7 +38,6 @@ const byRoleMenu = async () => {
       },
     ])
     .then(async (answers) => {
-      debugger;
       const fullUrl = await genFullId(answers.role, roles);
       const getEmployeesByTable = await getWholeRoster(fullUrl);
       return getEmployeesByTable;
